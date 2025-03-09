@@ -47,14 +47,21 @@ public class Player : MonoBehaviour
         {
             Debug.Log("scalin");
             Vector3 currPos = Input.mousePosition;
+            float currScale = transform.localScale.x;
             currPos = Camera.main.ScreenToWorldPoint(currPos);
             float diff = Vector3.Distance(currPos, startPos);
-            transform.localScale = new Vector3(diff / 2f, diff / 2f, 1f);
+            diff /= 2f;
+            diff = Mathf.Clamp(diff, 0.6f, 9.5f);
+            transform.localScale = new Vector3(diff, diff, 1f);
         }
         if (move)
         {
             Debug.Log("movin");
-            transform.position = mousePos;
+            Vector3 newPos = mousePos;
+            float offset = (transform.localScale.x / 2f);
+            newPos.x = Mathf.Clamp(newPos.x, -15.5f + offset, -6f - offset);
+            newPos.y = Mathf.Clamp(newPos.y, -3f + offset, 6.5f - offset);
+            transform.position = newPos;
         }
     }
     private void FixedUpdate()
