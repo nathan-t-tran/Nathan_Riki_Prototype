@@ -98,4 +98,14 @@ public class Player : MonoBehaviour
             hit = true;
         }
     }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Debug.Log("coll " + collision.gameObject.name);
+        if (collision.gameObject.CompareTag("Wall"))
+        {
+            Debug.Log("DIE");
+            hit = true;
+        }
+    }
 }
