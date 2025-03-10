@@ -4,6 +4,7 @@ public class Player : MonoBehaviour
 {
     Vector3 mousePos;
     Vector3 startPos;
+    public bool hit;
     bool hoveringScale;
     bool hoveringMove;
     bool holding;
@@ -12,6 +13,7 @@ public class Player : MonoBehaviour
 
     void Start()
     {
+        hit = false;
         hoveringScale = false;
         hoveringMove = false;
         holding = false;
@@ -93,6 +95,7 @@ public class Player : MonoBehaviour
         if (collision.CompareTag("Wall"))
         {
             Debug.Log("DIE");
+            hit = true;
         }
     }
 }
