@@ -63,11 +63,6 @@ public class Player : MonoBehaviour
             transform.position = newPos;
         }
     }
-
-    private void OnMouseDown()
-    {
-
-    }
     private void FixedUpdate()
     {
         hoveringScale = false;
