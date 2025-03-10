@@ -83,6 +83,7 @@ public class HoleWall : MonoBehaviour
         // spawn shape in the forecast
         curr = shapes[Random.Range(0, shapes.Length)];
         curr = Instantiate(curr, new Vector3(7.5f, 5f, 0f), Quaternion.identity);
+        curr.tag = "Wall";
         sprite = curr.GetComponentInChildren<SpriteRenderer>();
         yield return new WaitForSeconds(2.5f);
 
