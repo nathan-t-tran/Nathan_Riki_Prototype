@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
     bool holding;
     bool scale;
     bool move;
+
     void Start()
     {
         hoveringScale = false;
@@ -16,7 +17,6 @@ public class Player : MonoBehaviour
         holding = false;
     }
 
-    // Update is called once per frame
     void Update()
     {
         mousePos = Input.mousePosition;
@@ -47,11 +47,10 @@ public class Player : MonoBehaviour
         {
             Debug.Log("scalin");
             Vector3 currPos = Input.mousePosition;
-            float currScale = transform.localScale.x;
             currPos = Camera.main.ScreenToWorldPoint(currPos);
             float diff = Vector3.Distance(currPos, startPos);
             diff /= 2f;
-            diff = Mathf.Clamp(diff, 0.6f, 9.5f);
+            diff = Mathf.Clamp(diff, 0.8f, 9.5f);
             transform.localScale = new Vector3(diff, diff, 1f);
         }
         if (move)
@@ -64,6 +63,11 @@ public class Player : MonoBehaviour
             transform.position = newPos;
         }
     }
+
+    private void OnMouseDown()
+    {
+
+    }
     private void FixedUpdate()
     {
         hoveringScale = false;
@@ -71,16 +75,29 @@ public class Player : MonoBehaviour
         RaycastHit2D hit = Physics2D.Raycast(new Vector2(mousePos.x, mousePos.y), Vector2.zero);
         if (hit)
         {
-            if (hit.collider.CompareTag("Scale"))
-            {
-                Debug.Log("HOVERING OVER SCALE");
-                hoveringScale = true;
-            }
-            else if (hit.collider.CompareTag("Move"))
+            if (hit.collider.CompareTag("Move"))
             {
                 Debug.Log("HOVERING OVER MOVE");
                 hoveringMove = true;
             }
+            else if (hit.collider.CompareTag("Scale"))
+            {
+                Debug.Log("HOVERING OVER SCALE");
+                hoveringScale = true;
+            }
+            else if (hit.collider.CompareTag("Player"))
+            {
+                Debug.Log("please stop triggering");
+                hoveringMove = true;
+            }
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Wall"))
+        {
+            Debug.Log("DIE");
         }
     }
 }

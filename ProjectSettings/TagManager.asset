@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Move
   - Scale
+  - Wall
+  - Hole
   layers:
   - Default
   - TransparentFX
