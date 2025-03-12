@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,6 +7,7 @@ using UnityEngine.UI;
 public class HoleWall : MonoBehaviour
 {
     [SerializeField] GameObject[] shapes;
+    [SerializeField] SpriteRenderer[] spr;
     GameObject curr;
     GameObject prev;
     SpriteRenderer sprite;
@@ -14,12 +16,14 @@ public class HoleWall : MonoBehaviour
     [SerializeField] Vector3 startPos;
     [SerializeField] Vector3 endPos;
     //[SerializeField] float wallSpeed;
+    public bool active = false;
     bool loss = false;
     bool flashing = false;
     int lives = 3;
+    int prelives = 3;
     int score = 0;
     float switchTime = 0f;
-    float flashSpeed = 9f;
+    float flashSpeed = 12f;
     void Start()
     {
         //Spawn();
@@ -93,30 +97,37 @@ public class HoleWall : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
 
         // switch and spawn nexr forecast
+        active = true;
         flashing = false;
+        GridRed();
         sprite.color = Color.green;
         curr.transform.position = new Vector3(-14f, 5f, 0f);
         prev = curr;
         CheckHit();
-        player.hit = false;
         StartCoroutine(Switch());
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
 
         // kill previous shape
+        GridWhite();
+        active = false;
+        player.hit = false;
         Destroy(prev);
+        //player.hit = false;
     }
 
     void CheckHit()
     {
         // lose life if hit the wall
-        if (player.hit)
+        if (prelives > lives)
         {
-            lives--;
+            //LoseLive();
+            prelives = lives;
         }
         // increase score if made it in the hole
         else
         {
             score++;
+            Debug.Log("sweat");
         }
 
         slider.value = lives / 3f;
@@ -125,6 +136,30 @@ public class HoleWall : MonoBehaviour
         if (lives <= 0)
         {
             loss = true;
+        }
+        //player.hit = false;
+    }
+
+    public void LoseLive()
+    {
+        lives--;
+        Debug.Log("lives: " + lives);
+        slider.value = lives / 3f;
+    }
+
+    void GridRed()
+    {
+        for (int i = 0; i < spr.Length; i++)
+        {
+            spr[i].color = Color.red;
+        }
+    }
+
+    void GridWhite()
+    {
+        for (int i = 0; i < spr.Length; i++)
+        {
+            spr[i].color = Color.white;
         }
     }
 }

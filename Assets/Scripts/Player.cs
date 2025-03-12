@@ -47,7 +47,7 @@ public class Player : MonoBehaviour
         }
         if (scale)
         {
-            Debug.Log("scalin");
+            //Debug.Log("scalin");
             Vector3 currPos = Input.mousePosition;
             currPos = Camera.main.ScreenToWorldPoint(currPos);
             float diff = Vector3.Distance(currPos, startPos);
@@ -57,7 +57,7 @@ public class Player : MonoBehaviour
         }
         if (move)
         {
-            Debug.Log("movin");
+            //Debug.Log("movin");
             Vector3 newPos = mousePos;
             float offset = (transform.localScale.x / 2f);
             newPos.x = Mathf.Clamp(newPos.x, -15.5f + offset, -6f - offset);
@@ -69,43 +69,47 @@ public class Player : MonoBehaviour
     {
         hoveringScale = false;
         hoveringMove = false;
-        RaycastHit2D hit = Physics2D.Raycast(new Vector2(mousePos.x, mousePos.y), Vector2.zero);
-        if (hit)
+        RaycastHit2D ray = Physics2D.Raycast(new Vector2(mousePos.x, mousePos.y), Vector2.zero);
+        if (ray)
         {
-            if (hit.collider.CompareTag("Move"))
+            if (ray.collider.CompareTag("Move"))
             {
-                Debug.Log("HOVERING OVER MOVE");
+                //Debug.Log("HOVERING OVER MOVE");
                 hoveringMove = true;
             }
-            else if (hit.collider.CompareTag("Scale"))
+            else if (ray.collider.CompareTag("Scale"))
             {
-                Debug.Log("HOVERING OVER SCALE");
+                //Debug.Log("HOVERING OVER SCALE");
                 hoveringScale = true;
             }
-            else if (hit.collider.CompareTag("Player"))
+            else if (ray.collider.CompareTag("Player"))
             {
-                Debug.Log("please stop triggering");
+                //Debug.Log("please stop triggering");
                 hoveringMove = true;
             }
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    public float GetScale()
     {
-        if (collision.CompareTag("Wall"))
-        {
-            Debug.Log("DIE");
-            hit = true;
-        }
+        return transform.localScale.x;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        Debug.Log("coll " + collision.gameObject.name);
-        if (collision.gameObject.CompareTag("Wall"))
-        {
-            Debug.Log("DIE");
-            hit = true;
-        }
-    }
+    //private void OnTriggerEnter2D(Collider2D collision)
+    //{
+    //    if (collision.CompareTag("Wall"))
+    //    {
+    //        Debug.Log("HIT");
+    //        hit = true;
+    //    }
+    //}
+
+    //private void OnTriggerExit2D(Collider2D collision)
+    //{
+    //    if (collision.CompareTag("Wall"))
+    //    {
+    //        Debug.Log("hole");
+    //        //hit = false;
+    //    }
+    //}
 }
