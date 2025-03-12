@@ -1,4 +1,5 @@
 using System.Collections;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -97,6 +98,7 @@ public class HoleWall : MonoBehaviour
         curr.transform.position = new Vector3(-14f, 5f, 0f);
         prev = curr;
         CheckHit();
+        player.hit = false;
         StartCoroutine(Switch());
         yield return new WaitForSeconds(2f);
 
