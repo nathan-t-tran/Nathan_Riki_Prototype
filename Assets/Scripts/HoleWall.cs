@@ -17,7 +17,7 @@ public class HoleWall : MonoBehaviour
     [SerializeField] Vector3 endPos;
     //[SerializeField] float wallSpeed;
     public bool active = false;
-    bool loss = false;
+    public bool loss = false;
     bool flashing = false;
     int lives = 3;
     int prelives = 3;
@@ -117,27 +117,29 @@ public class HoleWall : MonoBehaviour
 
     void CheckHit()
     {
-        // lose life if hit the wall
+        HoleSoundManager soundManager = FindObjectOfType<HoleSoundManager>();
+
         if (prelives > lives)
         {
-            //LoseLive();
             prelives = lives;
         }
-        // increase score if made it in the hole
         else
         {
             score++;
-            Debug.Log("sweat");
+            Debug.Log("Sweat! Player fit the hole!");
+
+            if (soundManager != null)
+            {
+                soundManager.PlaySuccessSound();
+            }
         }
 
         slider.value = lives / 3f;
 
-        // end game
         if (lives <= 0)
         {
             loss = true;
         }
-        //player.hit = false;
     }
 
     public void LoseLive()
